@@ -22,14 +22,73 @@ public class Vuelo {
     public Vuelo(NumeroVueloId numeroVuelo, FechaViaje fechaHora, String origen, String destino, 
                  Plazas plazasTotales, Plazas plazasDisponiblesTurista) {
     
-            if (origen == null || origen.isBlank() || destino == null || destino.isBlank()) {
-            throw new IllegalArgumentException("Origen y Destino son obligatorios.");
+        if (origen == null || origen.isBlank() || destino == null || destino.isBlank()) {
+        throw new IllegalArgumentException("Origen y Destino son obligatorios.");
         }
         
-            // Regla 2: Validar que las plazas totales sean mayores o iguales a las plazas disponibles para turista
-            if (plazasDisponiblesTurista.cantidad() > plazasTotales.cantidad()) {
-            throw new ReservaInvalidaException("Las plazas de turista no pueden exceder las plazas totales del vuelo.");
+        
+        if (plazasDisponiblesTurista.cantidad() > plazasTotales.cantidad()) {
+        throw new ReservaInvalidaException("Las plazas de turista no pueden exceder las plazas totales del vuelo.");
         }
+        
+        this.numeroVuelo = numeroVuelo;
+        this.fechaHora = fechaHora;
+        this.origen = origen;
+        this.destino = destino;
+        this.plazasTotales = plazasTotales;
+        this.plazasDisponiblesTurista = plazasDisponiblesTurista;       
+    }
+
+    //GETTERS
+    public NumeroVueloId getNumeroVuelo() {
+        return numeroVuelo;
+    }
+
+    public FechaViaje getFechaHora() {
+        return fechaHora;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public Plazas getPlazasTotales() {
+        return plazasTotales;
+    }
+
+    public Plazas getPlazasDisponiblesTurista() {
+        return plazasDisponiblesTurista;
     }
     
+    //SETTERS
+    public void setPlazasTotales(Plazas plazasTotales) {
+        this.plazasTotales = plazasTotales;
+    }
+
+    public void setPlazasDisponiblesTurista(Plazas plazasDisponiblesTurista) {
+        this.plazasDisponiblesTurista = plazasDisponiblesTurista;
+    }
+    
+    //METODOS
+    public void reservarAsiento(ClaseAsiento clase, int cantidad) {
+        
+        if (clase == ClaseAsiento.TURISTA) {
+            // Utilizamos el método inmutable del VO 'Plazas' que ya incluye la validación de no-negativos.
+            Plazas nuevasPlazas = plazasDisponiblesTurista.decrementar(cantidad); 
+            this.plazasDisponiblesTurista = nuevasPlazas;
+            
+        } else if (clase == ClaseAsiento.PRIMERA_CLASE) {
+            // Lógica similar, pero usando un VO para Plazas de Primera Clase (a crear).
+            // Por simplicidad, asumimos que se decrementan las plazas totales.
+            Plazas nuevasPlazasTotales = plazasTotales.decrementar(cantidad);
+            this.plazasTotales = nuevasPlazasTotales;
+            
+        } else {
+            throw new IllegalArgumentException("Clase de asiento no válida.");
+        }
+    }
 }
