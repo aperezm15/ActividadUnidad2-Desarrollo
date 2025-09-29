@@ -8,8 +8,8 @@ package com.mitzuke.domain.exceptions;
  *
  * @author Mitzuke
  */
-public class ReservaInvalidaExcepton extends RuntimeException{
-    public ReservaInvalidaExcepton(String message) {
+public class ReservaInvalidaException extends RuntimeException{
+    public ReservaInvalidaException(String message) {
         super(message);
     }
 }
