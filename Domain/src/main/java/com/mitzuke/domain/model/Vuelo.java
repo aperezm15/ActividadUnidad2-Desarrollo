@@ -11,6 +11,7 @@ import com.mitzuke.domain.enums.ClaseAsiento;
 import com.mitzuke.domain.exceptions.ReservaInvalidaException;
 
 
+
 public class Vuelo {
     private final NumeroVueloId numeroVuelo;
     private final FechaViaje fechaHora;
