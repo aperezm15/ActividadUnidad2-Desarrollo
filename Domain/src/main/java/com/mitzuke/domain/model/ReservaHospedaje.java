@@ -24,7 +24,7 @@ public class ReservaHospedaje {
                             FechaViaje fechaSalida, int numeroPlazas) {
         
         if (!fechaLlegada.valor().isBefore(fechaSalida.valor())) {
-            throw new ReservaInvalidaException("La fecha de llegada debe ser anterior a la fecha de salida.");
+            throw new ReservaInvalidaException("La fecha de llegada debe ser despues a la fecha de salida.");
         }
         
         if (numeroPlazas <= 0) {

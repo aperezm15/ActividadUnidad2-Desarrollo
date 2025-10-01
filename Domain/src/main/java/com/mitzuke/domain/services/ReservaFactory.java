@@ -29,4 +29,15 @@ public class ReservaFactory {
                 
                 return new ReservaVuelo(nuevoId, turistaId, vueloId, claseAsiento, fechaVuelo, numeroAsientos);
             }
+    
+    public ReservaHospedaje crearReservaHospedaje(CodigoTuristaId turistaId, CodigoHotelId hotelId,
+            RegimenHospedaje regimen, FechaViaje fechaLlegada, FechaViaje fechaSalida, int numeroPlazas) {
+        Long diasEstancia = java.time.temporal.ChronoUnit.DAYS.between(fechaLlegada.valor(), fechaSalida.valor());
+        if (regimen == RegimenHospedaje.PENSION_COMPLETA && diasEstancia < 5) {
+            throw new ReservaInvalidaException("Pension Completa requiere una estancia minima de 5 dias");
+        }
+        Long nuevoId = ID_GENERATOR.incrementAndGet();
+        
+        return new ReservaHospedaje(nuevoId, turistaId, hotelId, regimen, fechaLlegada, fechaSalida, numeroPlazas);
+    }
 }
